@@ -44,9 +44,16 @@ public class Venta_201404134 {
 		this.codigoCliente = codigoCliente;
 	}
 	
-	public Venta_201404134(int codigoProducto,Date fecha, int cantidad, int codigoEmpleado, int codigoCliente){
+	public Venta_201404134(int codigoProducto,String fecha, int cantidad, int codigoEmpleado, int codigoCliente){
 		this.codigoProducto=codigoProducto;
-		this.fecha=fecha;
+		DateFormat formato=new SimpleDateFormat("dd.MM.yyyy");
+		try {
+			this.fecha= formato.parse(fecha);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			System.out.println("Error en fecha");
+		}
 		this.cantidad=cantidad;
 		this.codigoEmpleado=codigoEmpleado;
 		this.codigoCliente=codigoCliente;
@@ -55,6 +62,7 @@ public class Venta_201404134 {
 	}
 	
 	public Venta_201404134(String ventaPlano){
+		ventaPlano=ventaPlano.replace(" ", "");
 		String [] atributos=ventaPlano.split(",");
 		this.codigoProducto=Integer.parseInt(atributos[0]);
 		DateFormat formato=new SimpleDateFormat("dd.MM.yyyy");

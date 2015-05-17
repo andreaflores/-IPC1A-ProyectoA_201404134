@@ -34,6 +34,7 @@ public Producto_201404134(int codigo, String descripcion, int precio){
 }
 
 public Producto_201404134(String productoPlano){
+	productoPlano=productoPlano.replace(" ", "");
 	String [] atributos=productoPlano.split(",");
 	this.codigo=Integer.parseInt(atributos[0]);
 	this.descripcion=atributos[1];

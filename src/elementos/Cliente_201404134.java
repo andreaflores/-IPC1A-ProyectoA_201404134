@@ -41,6 +41,7 @@ public class Cliente_201404134 {
 	}
 	
 	public Cliente_201404134(String clientePlano){
+		clientePlano=clientePlano.replace(" ", "");
 		String [] atributos=clientePlano.split(",");
 		this.codigo=Integer.parseInt(atributos[0]);
 		this.nombre=atributos[1];

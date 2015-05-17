@@ -1,7 +1,9 @@
 package listas;
+import java.util.Iterator;
+
 import elementos.Venta_201404134;
 
-public class ListaVenta_201404134 {
+public class ListaVenta_201404134 implements Iterator {
 	private class Nodo{
 		Venta_201404134 info;
 		Nodo siguiente;
@@ -29,9 +31,11 @@ public class ListaVenta_201404134 {
 	}
 	
 	private Nodo primero;
+	private Nodo actual;
 	
 	public ListaVenta_201404134(){
 		primero=null;
+		actual=null;
 		
 			
 	}
@@ -39,6 +43,7 @@ public class ListaVenta_201404134 {
 	public void agregar(Venta_201404134 venta){
 		if(primero==null){
 			primero=new Nodo(venta);
+			actual=primero;
 			
 		}
 		
@@ -103,5 +108,20 @@ public class ListaVenta_201404134 {
 		lista.agregar(venta);
 		lista.recorrer();
 		System.out.println(lista.buscar(2).toString());
+	}
+
+	@Override
+	public boolean hasNext() {
+		// TODO Auto-generated method stub
+			return actual!=null;
+		
+		}
+
+	@Override
+	public Venta_201404134 next() {
+		// TODO Auto-generated method stub
+		Venta_201404134 venta=actual.getInfo();
+		actual=actual.getSiguiente();
+		return venta;
 	}
 }

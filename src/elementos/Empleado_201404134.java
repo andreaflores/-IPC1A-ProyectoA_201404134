@@ -47,6 +47,7 @@ public class Empleado_201404134 {
 	}
 	
 	public Empleado_201404134(String empleadoPlano){
+		empleadoPlano=empleadoPlano.replace(" ", "");
 		String [] atributos=empleadoPlano.split(",");
 		this.codigo=Integer.parseInt(atributos[0]);
 		this.nombre=atributos[1];
