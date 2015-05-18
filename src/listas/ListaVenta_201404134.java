@@ -32,10 +32,12 @@ public class ListaVenta_201404134 implements Iterator {
 	
 	private Nodo primero;
 	private Nodo actual;
+	private int numeroElementos;
 	
 	public ListaVenta_201404134(){
 		primero=null;
 		actual=null;
+		numeroElementos=0;
 		
 			
 	}
@@ -44,12 +46,18 @@ public class ListaVenta_201404134 implements Iterator {
 		if(primero==null){
 			primero=new Nodo(venta);
 			actual=primero;
+		
 			
 		}
 		
 		else{
 			agregar(venta, primero);
 		}
+		numeroElementos++;
+	}
+
+	public int getNumeroElementos() {
+		return numeroElementos;
 	}
 
 	private void agregar(Venta_201404134 venta, Nodo actual){
@@ -124,4 +132,45 @@ public class ListaVenta_201404134 implements Iterator {
 		actual=actual.getSiguiente();
 		return venta;
 	}
+	
+	public void reset(){
+		actual=primero;
+		
+	}
+	
+	public int buscarE(int codigoEmpleado){
+		return buscarE(codigoEmpleado, primero);
+		
+	}
+	
+	private int buscarE(int codigoEmpleado, Nodo actual){
+		if (actual!=null){
+			if(actual.getInfo().getCodigoEmpleado()==codigoEmpleado){
+				return 1+ buscarE(codigoEmpleado,actual.getSiguiente());
+			}
+			else{
+				return buscarE(codigoEmpleado,actual.getSiguiente());
+				
+			}
+		}
+		return 0;
+	}
+	
+	public int buscarC(int codigoCliente){
+		return buscarE(codigoCliente, primero);
+		
+	}
+	
+	private int buscarC(int codigoCliente, Nodo actual){
+		if (actual!=null){
+			if(actual.getInfo().getCodigoCliente()==codigoCliente){
+				return 1+ buscarC(codigoCliente,actual.getSiguiente());
+			}
+			else{
+				return buscarC(codigoCliente,actual.getSiguiente());
+			}
+		}
+		return 0;
+	}
+	
 }

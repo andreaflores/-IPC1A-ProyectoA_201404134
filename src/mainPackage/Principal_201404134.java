@@ -16,6 +16,7 @@ import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
@@ -60,6 +61,7 @@ public class Principal_201404134 extends JFrame {
 			}
 		});
 	}
+
 	
 	public Principal_201404134() {
 		this.listaCliente=new ListaCliente_201404134();
@@ -67,7 +69,7 @@ public class Principal_201404134 extends JFrame {
 		this.listaVenta=new ListaVenta_201404134();
 		this.listaProducto=new ListaProducto_201404134();
 		
-		this.setBounds(100, 100, 750, 370);
+		this.setBounds(100, 100, 750, 420);
 		this.setTitle("Buscar Archivos");
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		this.getContentPane().setLayout(null);
@@ -445,25 +447,39 @@ public class Principal_201404134 extends JFrame {
 		}});
 	fondo.add(agregarV);
 	
+	final BuscarP_201404134 buscar= new BuscarP_201404134(this,listaProducto);
 	JButton buscarP= new JButton("Buscar Producto");
 	buscarP.setBounds(20, 290, 160, 23);
 	fondo.add(buscarP);
 	buscarP.setFont(new Font("Candara", Font.BOLD, 15));
-	
+	buscarP.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				buscar.setVisible(true);
+		}
+		});
+	final BuscarC_201404134 buscarcl= new BuscarC_201404134(this, listaCliente);
 	JButton buscarC= new JButton("Buscar Cliente");
 	buscarC.setBounds(190, 290, 160, 23);
 	fondo.add(buscarC);
 	buscarC.setFont(new Font("Candara", Font.BOLD, 15));
+	buscarC.addActionListener(new ActionListener() {
+		public void actionPerformed(ActionEvent arg0) {
+			buscarcl.setVisible(true);
+		}
+	});
+	
+	final BuscarE_201404134 buscarEm=new BuscarE_201404134(this, listaEmpleado);
 	
 	JButton buscarE= new JButton("Buscar Empleado");
 	buscarE.setBounds(360, 290, 160, 23);
 	fondo.add(buscarE);
 	buscarE.setFont(new Font("Candara", Font.BOLD, 15));
+	buscarE.addActionListener(new ActionListener() {
+		public void actionPerformed(ActionEvent arg0) {
+			buscarEm.setVisible(true);
+		}
+	});
 	
-	JButton buscarV= new JButton("Buscar Venta");
-	buscarV.setBounds(530, 290, 160, 23);
-	fondo.add(buscarV);
-	buscarV.setFont(new Font("Candara", Font.BOLD, 15));
 	
 	final Reportes_201404134 reportes=new Reportes_201404134(listaCliente, listaEmpleado, listaProducto, listaVenta);
 	
@@ -476,5 +492,112 @@ public class Principal_201404134 extends JFrame {
 			reportes.setVisible(true);
 		}	
 	});
+	
+	final EliminarP_201404134 eliminarPr= new EliminarP_201404134(this);
+	JButton eliminarP= new JButton("Eliminar Producto");
+	eliminarP.setBounds(20, 330, 160, 23);
+	fondo.add(eliminarP);
+	eliminarP.setFont(new Font("Candara", Font.BOLD, 15));
+	eliminarP.addActionListener(new ActionListener() {
+		public void actionPerformed(ActionEvent arg0) {
+			eliminarPr.limpiarCampos();
+			eliminarPr.setVisible(true);
+			if(eliminarPr.getCodigo()>-1){
+				boolean eliminado=listaProducto.eliminar(eliminarPr.getCodigo());
+				if(eliminado){
+					JOptionPane.showMessageDialog(null, "Se eliminó");
+					try
+					{
+					  String filename= productos.getText();
+					  FileWriter fw = new FileWriter(filename); 
+					  while (listaProducto.hasNext()){
+						   fw.write(listaProducto.next().toString()+"\n");
+						   
+					  }
+					 
+					  fw.close();
+					}
+					catch(IOException ioe)
+					{
+					  System.err.println("IOException: " + ioe.getMessage());
+					}
+				}else{
+					JOptionPane.showMessageDialog(null, "No se eliminó");
+				}
+			}
+		}	
+	});
+	
+	final EliminarC_201404134 eliminarCl=new EliminarC_201404134(this);
+	JButton eliminarC= new JButton("Eliminar Cliente");
+	eliminarC.setBounds(190, 330, 160, 23);
+	fondo.add(eliminarC);
+	eliminarC.setFont(new Font("Candara", Font.BOLD, 15));
+	eliminarC.addActionListener(new ActionListener() {
+		public void actionPerformed(ActionEvent arg0) {
+			eliminarCl.limpiarCampos();
+			eliminarCl.setVisible(true);
+			if(eliminarCl.getCodigo()>-1){
+				boolean eliminado=listaCliente.eliminar(eliminarCl.getCodigo());
+				if(eliminado){
+					JOptionPane.showMessageDialog(null, "Se eliminó");
+					try
+					{
+					  String filename= clientes.getText();
+					  FileWriter fw = new FileWriter(filename); 
+					  while (listaCliente.hasNext()){
+						   fw.write(listaCliente.next().toString()+"\n");
+						   
+					  }
+					 
+					  fw.close();
+					}
+					catch(IOException ioe)
+					{
+					  System.err.println("IOException: " + ioe.getMessage());
+					}
+				}else{
+					JOptionPane.showMessageDialog(null, "No se eliminó");
+				}
+			}
+		}	
+	});
+	
+	final EliminarE_201404134 eliminarEm=new EliminarE_201404134(this);
+	JButton eliminarE= new JButton("Eliminar Empleado");
+	eliminarE.setBounds(360, 330, 160, 23);
+	fondo.add(eliminarE);
+	eliminarE.setFont(new Font("Candara", Font.BOLD, 15));
+	eliminarE.addActionListener(new ActionListener() {
+		public void actionPerformed(ActionEvent arg0) {
+			eliminarEm.setVisible(true);
+			eliminarEm.limpiarCampos();
+			eliminarEm.setVisible(true);
+			if(eliminarEm.getCodigo()>-1){
+				boolean eliminado=listaEmpleado.eliminar(eliminarEm.getCodigo());
+				if(eliminado){
+					JOptionPane.showMessageDialog(null, "Se eliminó el emlpeado");
+					try
+					{
+					  String filename= empleados.getText();
+					  FileWriter fw = new FileWriter(filename); 
+					  while (listaEmpleado.hasNext()){
+						   fw.write(listaEmpleado.next().toString()+"\n");
+						   
+					  }
+					 
+					  fw.close();
+					}
+					catch(IOException ioe)
+					{
+					  System.err.println("IOException: " + ioe.getMessage());
+					}
+				}else{
+					JOptionPane.showMessageDialog(null, "No se eliminó");
+				}
+			}
+		}	
+	});
 	}
+	
 }

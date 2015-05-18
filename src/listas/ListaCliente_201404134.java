@@ -1,8 +1,11 @@
 package listas;
 
-import elementos.Cliente_201404134;
+import java.util.Iterator;
 
-public class ListaCliente_201404134 {
+import elementos.Cliente_201404134;
+import elementos.Empleado_201404134;
+
+public class ListaCliente_201404134 implements Iterator{
 	private class Nodo{
 		Cliente_201404134 info;
 		Nodo siguiente;
@@ -30,9 +33,14 @@ public class ListaCliente_201404134 {
 	}
 	
 	private Nodo primero;
+	private Nodo actual;
+	private int numeroElementos;
 	
 	public ListaCliente_201404134(){
 		primero=null;
+		actual=null;
+		numeroElementos=0;
+		
 		
 			
 	}
@@ -40,12 +48,22 @@ public class ListaCliente_201404134 {
 	public void agregar(Cliente_201404134 cliente){
 		if(primero==null){
 			primero=new Nodo(cliente);
+			actual=primero;
+			
 			
 		}
 		
 		else{
 			agregar(cliente, primero);
+			
 		}
+		numeroElementos ++;
+		
+	}
+	
+
+	public int getNumeroElementos() {
+		return numeroElementos;
 	}
 
 	private void agregar(Cliente_201404134 cliente, Nodo actual){
@@ -99,11 +117,62 @@ public class ListaCliente_201404134 {
 		lista.agregar(cliente4);
 		lista.agregar(cliente1);
 		lista.recorrer();
+		lista.eliminar(1);
+		lista.eliminar(4);
+		System.out.println("-------------------------");
 		lista.agregar(cliente);
 		lista.agregar(cliente2);
 		lista.agregar(cliente3);
+		
 		lista.recorrer();
-		System.out.println(lista.buscar(5).toString());
+//		System.out.println(lista.buscar(5).toString());
+	}
+
+	@Override
+	public boolean hasNext() {
+		// TODO Auto-generated method stub
+			return actual!=null;
+		
+		}
+
+	@Override
+	public Cliente_201404134 next() {
+		// TODO Auto-generated method stub
+		Cliente_201404134 cliente=actual.getInfo();
+		actual=actual.getSiguiente();
+		return cliente;
+	}
+	
+	public void reset(){
+		actual=primero;
+	}
+	public boolean eliminar(int codigo){
+		if(primero==null){
+			return false;
+		}else{
+			if(primero.getInfo().getCodigo()==codigo){
+				primero=primero.getSiguiente();
+			this.numeroElementos--;	
+			return true;
+			}else{
+				return eliminar(codigo, primero);
+			}
+		}
+				
+	}
+	public boolean eliminar(int codigo,Nodo actual){
+		if(actual.getSiguiente()==null){
+			return false;
+		}else{
+			if(actual.getSiguiente().getInfo().getCodigo()==codigo){
+				actual.setSiguiente(actual.getSiguiente().getSiguiente());
+				this.numeroElementos--;
+				return true;
+			}else{
+				return eliminar(codigo, actual.getSiguiente());
+			}
+		}
 	}
 }
+
 
